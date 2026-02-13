@@ -155,4 +155,8 @@ Real-time sync via WebSocket Realtime Engine
 
 📸 Screenshots
 
-![alt image](image.png)
+### Dashboard
+![Dashboard](screenshots/dashboard.png)
+
+### Login
+![Login](screenshots/login.png)
