@@ -149,8 +149,23 @@ export default function Home() {
 
   // ------------------ UI ------------------
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <div className="w-full max-w-xl backdrop-blur-lg bg-white/70 shadow-2xl rounded-2xl p-6 border border-white/40">
+    <div className="min-h-screen w-full bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center p-4">
+
+  <div className="
+    w-full 
+    h-full 
+    max-w-6xl 
+    min-h-[90vh] 
+    bg-white/70 
+    backdrop-blur-xl 
+    rounded-3xl 
+    shadow-2xl 
+    border border-white/40 
+    p-6 
+    flex 
+    flex-col
+  ">
+
 
         {/* Header */}
         <div className="flex justify-between items-center mb-6">
@@ -195,12 +210,17 @@ export default function Home() {
             {errorMsg && <p className="text-red-500 text-sm mb-3">{errorMsg}</p>}
 
             {/* Search */}
-            <input
-              className="border p-2 w-full rounded mb-4"
-              placeholder="Search bookmarks..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
+            <div className="relative mb-4">
+  <span className="absolute left-3 top-2.5 text-gray-400">🔍</span>
+
+  <input
+    className="border p-2 pl-9 w-full rounded-lg focus:ring-2 focus:ring-purple-400 outline-none"
+    placeholder="Search bookmarks..."
+    value={search}
+    onChange={(e) => setSearch(e.target.value)}
+  />
+</div>
+
           </>
         )}
 
@@ -209,7 +229,15 @@ export default function Home() {
           filtered.map((b) => (
             <div
               key={b.id}
-              className={`p-3 rounded mb-2 shadow bg-white ${
+              className={`bg-white/90
+  backdrop-blur
+  p-4
+  rounded-xl
+  shadow-sm
+  hover:shadow-md
+  hover:scale-[1.01]
+  transition
+  mb-3 ${
                 duplicateId === b.id ? "border border-red-500" : ""
               }`}
             >
@@ -225,10 +253,22 @@ export default function Home() {
                     value={editUrl}
                     onChange={(e) => setEditUrl(e.target.value)}
                   />
-                  <div className="flex gap-3">
-                    <button onClick={() => saveEdit(b)} className="text-green-600">Save</button>
-                    <button onClick={cancelEdit} className="text-gray-500">Cancel</button>
-                  </div>
+                  <div className="flex gap-3 mt-1">
+  <button
+    onClick={() => saveEdit(b)}
+    className="bg-green-500 text-white px-3 py-1 rounded hover:scale-105 transition"
+  >
+    Save
+  </button>
+
+  <button
+    onClick={cancelEdit}
+    className="bg-gray-300 px-3 py-1 rounded hover:bg-gray-400 transition"
+  >
+    Cancel
+  </button>
+</div>
+
                 </>
               ) : (
                 <>
@@ -240,17 +280,22 @@ export default function Home() {
                     </div>
                   </div>
 
-                  {mounted && (
-                    <p className="text-xs text-gray-500 mt-1">
-                      {b.updated_at
-                        ? `Updated: ${new Date(b.updated_at).toLocaleString("en-IN", {
-                            timeZone: "Asia/Kolkata",
-                          })}`
-                        : `Created: ${new Date(b.created_at).toLocaleString("en-IN", {
-                            timeZone: "Asia/Kolkata",
-                          })}`}
-                    </p>
-                  )}
+                  <p className="text-xs text-gray-500 mt-1">
+  {mounted
+    ? b.updated_at
+      ? `Updated: ${new Date(b.updated_at).toLocaleString("en-IN", {
+          timeZone: "Asia/Kolkata",
+          dateStyle: "medium",
+          timeStyle: "short",
+        })}`
+      : `Created: ${new Date(b.created_at).toLocaleString("en-IN", {
+          timeZone: "Asia/Kolkata",
+          dateStyle: "medium",
+          timeStyle: "short",
+        })}`
+    : ""}
+</p>
+
                 </>
               )}
             </div>
