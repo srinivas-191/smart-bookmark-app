@@ -151,7 +151,7 @@ export default function Home() {
   return (
     <div className="min-h-screen w-full bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center p-4">
 
-  <div className="
+      <div className="
     w-full 
     h-full 
     max-w-6xl 
@@ -168,58 +168,91 @@ export default function Home() {
 
 
         {/* Header */}
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">
+        <div className="mb-6">
+
+          {/* Row 1 → Profile + Logout (mobile first) */}
+          <div className="flex items-center justify-between sm:justify-end gap-3 mb-3 sm:mb-0">
+            {!user ? (
+              <button
+                onClick={loginWithGoogle}
+                className="bg-black text-white px-4 py-1 rounded"
+              >
+                Login with Google
+              </button>
+            ) : (
+              <div className="flex items-center gap-3">
+                <img
+                  src={user.user_metadata.avatar_url}
+                  className="w-8 h-8 rounded-full"
+                />
+                <span className="text-sm font-medium">
+                  {user.user_metadata.full_name}
+                </span>
+                <button
+                  onClick={logout}
+                  className="text-red-500 font-medium hover:bg-red-600 hover:text-white transition-all duration-150 ease-in-out delay-75 px-3 py-1"
+                >
+                  Logout
+                </button>
+              </div>
+            )}
+          </div>
+
+          {/* Row 2 → Title (moves below only on small screens) */}
+          <h1 className="
+    text-2xl font-bold
+    bg-gradient-to-r from-purple-600 to-pink-500
+    bg-clip-text text-transparent
+    sm:absolute sm:left-1/2 sm:-translate-x-1/2 sm:top-6
+  ">
             My Bookmarks
           </h1>
 
-          {!user ? (
-            <button onClick={loginWithGoogle} className="bg-black text-white px-4 py-1 rounded">
-              Login with Google
-            </button>
-          ) : (
-            <div className="flex items-center gap-3">
-              <img src={user.user_metadata.avatar_url} className="w-8 h-8 rounded-full" />
-              <span className="text-sm font-medium">{user.user_metadata.full_name}</span>
-              <button onClick={logout} className="text-red-500 font-medium">Logout</button>
-            </div>
-          )}
         </div>
+
 
         {/* Add */}
         {user && (
           <>
-            <div className="flex gap-2 mb-2">
+            <div className="flex flex-col sm:flex-row gap-2 mb-2">
+
               <input
                 className="border p-2 w-full rounded"
                 placeholder="Title"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
               />
+
               <input
                 className="border p-2 w-full rounded"
                 placeholder="URL"
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
               />
-              <button onClick={addBookmark} className="bg-purple-500 text-white px-4 rounded">
+
+              <button
+                onClick={addBookmark}
+                className="bg-purple-500 text-white px-4 py-2 rounded hover:bg-blue-800 w-full sm:w-auto"
+              >
                 Add
               </button>
+
             </div>
+
 
             {errorMsg && <p className="text-red-500 text-sm mb-3">{errorMsg}</p>}
 
             {/* Search */}
             <div className="relative mb-4">
-  <span className="absolute left-3 top-2.5 text-gray-400">🔍</span>
+              <span className="absolute left-3 top-2.5 text-gray-400">🔍</span>
 
-  <input
-    className="border p-2 pl-9 w-full rounded-lg focus:ring-2 focus:ring-purple-400 outline-none"
-    placeholder="Search bookmarks..."
-    value={search}
-    onChange={(e) => setSearch(e.target.value)}
-  />
-</div>
+              <input
+                className="border p-2 pl-9 w-full rounded-lg focus:ring-2 focus:ring-purple-400 outline-none"
+                placeholder="Search bookmarks..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+            </div>
 
           </>
         )}
@@ -237,9 +270,8 @@ export default function Home() {
   hover:shadow-md
   hover:scale-[1.01]
   transition
-  mb-3 ${
-                duplicateId === b.id ? "border border-red-500" : ""
-              }`}
+  mb-3 ${duplicateId === b.id ? "border border-red-500" : ""
+                }`}
             >
               {editingId === b.id ? (
                 <>
@@ -254,47 +286,86 @@ export default function Home() {
                     onChange={(e) => setEditUrl(e.target.value)}
                   />
                   <div className="flex gap-3 mt-1">
-  <button
-    onClick={() => saveEdit(b)}
-    className="bg-green-500 text-white px-3 py-1 rounded hover:scale-105 transition"
-  >
-    Save
-  </button>
+                    <button
+                      onClick={() => saveEdit(b)}
+                      className="bg-green-500 text-white px-3 py-1 rounded hover:scale-105 transition"
+                    >
+                      Save
+                    </button>
 
-  <button
-    onClick={cancelEdit}
-    className="bg-gray-300 px-3 py-1 rounded hover:bg-gray-400 transition"
-  >
-    Cancel
-  </button>
-</div>
+                    <button
+                      onClick={cancelEdit}
+                      className="bg-gray-300 px-3 py-1 rounded hover:bg-gray-400 transition"
+                    >
+                      Cancel
+                    </button>
+                  </div>
 
                 </>
               ) : (
                 <>
-                  <div className="flex justify-between">
-                    <a href={b.url} target="_blank" className="text-blue-600">{b.title}</a>
-                    <div className="flex gap-4">
-                      <button onClick={() => startEdit(b)} className="text-yellow-600">Edit</button>
-                      <button onClick={() => deleteBookmark(b.id)} className="text-red-500">Delete</button>
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+
+                    {/* Title */}
+                    <a
+                      href={b.url}
+                      target="_blank"
+                      className="text-blue-600 font-medium text-lg"
+                    >
+                      {b.title}
+                    </a>
+
+                    {/* Desktop buttons */}
+                    <div className="hidden sm:flex gap-4">
+                      <button
+                        onClick={() => startEdit(b)}
+                        className="text-yellow-600 hover:bg-amber-600 hover:text-white px-3 py-1 rounded transition"
+                      >
+                        Edit
+                      </button>
+
+                      <button
+                        onClick={() => deleteBookmark(b.id)}
+                        className="text-red-500 hover:bg-red-600 hover:text-white px-3 py-1 rounded transition"
+                      >
+                        Delete
+                      </button>
                     </div>
                   </div>
 
+
                   <p className="text-xs text-gray-500 mt-1">
-  {mounted
-    ? b.updated_at
-      ? `Updated: ${new Date(b.updated_at).toLocaleString("en-IN", {
-          timeZone: "Asia/Kolkata",
-          dateStyle: "medium",
-          timeStyle: "short",
-        })}`
-      : `Created: ${new Date(b.created_at).toLocaleString("en-IN", {
-          timeZone: "Asia/Kolkata",
-          dateStyle: "medium",
-          timeStyle: "short",
-        })}`
-    : ""}
-</p>
+                    {mounted
+                      ? b.updated_at
+                        ? `Updated: ${new Date(b.updated_at).toLocaleString("en-IN", {
+                          timeZone: "Asia/Kolkata",
+                          dateStyle: "medium",
+                          timeStyle: "short",
+                        })}`
+                        : `Created: ${new Date(b.created_at).toLocaleString("en-IN", {
+                          timeZone: "Asia/Kolkata",
+                          dateStyle: "medium",
+                          timeStyle: "short",
+                        })}`
+                      : ""}
+                  </p>
+
+                  <div className="flex sm:hidden gap-4 mt-3">
+                    <button
+                      onClick={() => startEdit(b)}
+                      className="text-yellow-600 hover:bg-amber-600 hover:text-white px-3 py-1 rounded transition"
+                    >
+                      Edit
+                    </button>
+
+                    <button
+                      onClick={() => deleteBookmark(b.id)}
+                      className="text-red-500 hover:bg-red-600 hover:text-white px-3 py-1 rounded transition"
+                    >
+                      Delete
+                    </button>
+                  </div>
+
 
                 </>
               )}

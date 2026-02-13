@@ -3,7 +3,7 @@
 A production-ready, real-time bookmark manager built with Next.js, Supabase, and Tailwind CSS.
 Designed with modern architecture, secure authentication, and smooth real-time user experience.
 
-🌐 Live Demo: https://your-vercel-link.vercel.app
+🌐 Live Demo: https://smart-bookmark-app-six-vert.vercel.app/
 
 ✨ Features
 
@@ -152,5 +152,7 @@ Secure authentication via Google OAuth
 Database protected by RLS
 
 Real-time sync via WebSocket Realtime Engine
+
+📸 Screenshots
 
 ![alt image](image.png)
